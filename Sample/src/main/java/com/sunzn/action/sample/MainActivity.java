@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 
+import com.sunzn.action.library.ActionBase;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,7 +25,17 @@ public class MainActivity extends AppCompatActivity {
             public void exec() {
                 finish();
             }
-        }).setGravity(Gravity.CENTER).setCanceledOnTouch(false).setStyle(0).setDimAmount(0.8F).show(getSupportFragmentManager());
+        }).setDismissListener(new ActionBase.DismissListener() {
+            @Override
+            public void onDismiss() {
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 400);
+            }
+        }).setGravity(Gravity.BOTTOM).setCanceledOnTouch(true).setCancelAble(true).setAnimation(0).setDimAmount(0.8F).show(getSupportFragmentManager());
     }
 
 }
