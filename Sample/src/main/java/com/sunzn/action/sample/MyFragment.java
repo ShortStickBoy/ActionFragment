@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.sunzn.action.library.ActionFragment;
@@ -39,4 +40,10 @@ public class MyFragment extends ActionFragment {
             }
         });
     }
+
+    @Override
+    public int getWidth() {
+        return WindowManager.LayoutParams.MATCH_PARENT;
+    }
+
 }
