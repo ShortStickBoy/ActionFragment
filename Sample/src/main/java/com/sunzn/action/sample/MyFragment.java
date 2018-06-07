@@ -11,6 +11,8 @@ import com.sunzn.action.library.ActionFragment;
 
 public class MyFragment extends ActionFragment {
 
+    public static final int FINISH = 1;
+
     public interface ActionListener {
 
         void exec();

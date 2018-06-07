@@ -10,6 +10,8 @@ import com.sunzn.action.library.ActionBase;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.sunzn.action.sample.MyFragment.FINISH;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -23,19 +25,21 @@ public class MainActivity extends AppCompatActivity {
         fragment.setActionListener(new MyFragment.ActionListener() {
             @Override
             public void exec() {
-                finish();
+                fragment.dismissWithCode(FINISH);
             }
         }).setDismissListener(new ActionBase.DismissListener() {
             @Override
-            public void onDismiss() {
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 400);
+            public void onDismiss(int code) {
+                if (code == FINISH) {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 400);
+                }
             }
-        }).setGravity(Gravity.BOTTOM).setCanceledOnTouch(true).setCancelAble(true).setAnimation(0).setDimAmount(0.8F).show(getSupportFragmentManager());
+        }).setGravity(Gravity.BOTTOM).setCanceledOnTouch(true).setCancelAble(true).setDimAmount(0.8F).show(getSupportFragmentManager());
     }
 
 }
