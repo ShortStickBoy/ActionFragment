@@ -26,6 +26,8 @@ public abstract class ActionFragment extends ActionBase {
 
     private DismissListener mDismissListener;
 
+    private int mDismissCode = Integer.MAX_VALUE;
+
     private int mGravity = Gravity.START | Gravity.BOTTOM;
 
     private int mAnimation = R.style.Animation_Action_Fragment;
@@ -139,10 +141,27 @@ public abstract class ActionFragment extends ActionBase {
         }, millis);
     }
 
+    public void dismissWithCode(int code) {
+        setDismissCode(code);
+        dismiss();
+    }
+
+    private void setDismissCode(int code) {
+        mDismissCode = code;
+    }
+
+    private int getDismissCode() {
+        return mDismissCode;
+    }
+
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (mDismissListener != null) mDismissListener.onDismiss();
+        onFragmentDismiss();
+    }
+
+    private void onFragmentDismiss() {
+        if (mDismissListener != null) mDismissListener.onDismiss(getDismissCode());
     }
 
 }
