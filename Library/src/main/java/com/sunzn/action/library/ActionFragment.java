@@ -1,12 +1,12 @@
 package com.sunzn.action.library;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,19 +24,15 @@ public abstract class ActionFragment extends ActionBase {
 
     private float mDimAmount = 0.5F;
 
-    private int mStyle = R.style.Theme_ActionBox;
+    private DismissListener mDismissListener;
 
     private int mGravity = Gravity.START | Gravity.BOTTOM;
+
+    private int mAnimation = R.style.Animation_Action_Fragment;
 
     private int mWidth = WindowManager.LayoutParams.MATCH_PARENT;
 
     private int mHeight = WindowManager.LayoutParams.WRAP_CONTENT;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, getStyle());
-    }
 
     @Nullable
     @Override
@@ -45,13 +41,20 @@ public abstract class ActionFragment extends ActionBase {
         dialog.setCanceledOnTouchOutside(isCanceledOnTouch());
         Window window = dialog.getWindow();
         if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             window.getDecorView().setPadding(0, 0, 0, 0);
             window.setLayout(getWidth(), getHeight());
             window.setDimAmount(getDimAmount());
             window.setGravity(getGravity());
+            window.setWindowAnimations(getAnimation());
         }
         return inflater.inflate(getLayoutRes(), container, false);
+    }
+
+    public ActionFragment setDismissListener(DismissListener listener) {
+        mDismissListener = listener;
+        return this;
     }
 
     public ActionFragment setCanceledOnTouch(boolean cancel) {
@@ -86,13 +89,13 @@ public abstract class ActionFragment extends ActionBase {
         return mDimAmount;
     }
 
-    public ActionFragment setStyle(int style) {
-        mStyle = style;
+    public ActionFragment setAnimation(int animation) {
+        mAnimation = animation;
         return this;
     }
 
-    public int getStyle() {
-        return mStyle;
+    public int getAnimation() {
+        return mAnimation;
     }
 
     public ActionFragment setWidth(int width) {
@@ -134,6 +137,12 @@ public abstract class ActionFragment extends ActionBase {
                 if (getContext() != null) dismiss();
             }
         }, millis);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mDismissListener != null) mDismissListener.onDismiss();
     }
 
 }
