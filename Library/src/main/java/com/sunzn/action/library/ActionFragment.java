@@ -18,7 +18,8 @@ import android.view.WindowManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public abstract class ActionFragment extends ActionBase {
+@SuppressWarnings("ALL")
+public abstract class ActionFragment<T extends ActionFragment> extends ActionBase {
 
     private boolean mCancel = true;
 
@@ -54,64 +55,64 @@ public abstract class ActionFragment extends ActionBase {
         return inflater.inflate(getLayoutRes(), container, false);
     }
 
-    public ActionFragment setDismissListener(DismissListener listener) {
+    public T setDismissListener(DismissListener listener) {
         mDismissListener = listener;
-        return this;
+        return (T) this;
     }
 
-    public ActionFragment setCanceledOnTouch(boolean cancel) {
+    public T setCanceledOnTouch(boolean cancel) {
         mCancel = cancel;
-        return this;
+        return (T) this;
     }
 
     public boolean isCanceledOnTouch() {
         return mCancel;
     }
 
-    public ActionFragment setCancelAble(boolean cancel) {
+    public T setCancelAble(boolean cancel) {
         setCancelable(cancel);
-        return this;
+        return (T) this;
     }
 
-    public ActionFragment setGravity(int gravity) {
+    public T setGravity(int gravity) {
         mGravity = gravity;
-        return this;
+        return (T) this;
     }
 
     public int getGravity() {
         return mGravity;
     }
 
-    public ActionFragment setDimAmount(float amount) {
+    public T setDimAmount(float amount) {
         mDimAmount = amount;
-        return this;
+        return (T) this;
     }
 
     private float getDimAmount() {
         return mDimAmount;
     }
 
-    public ActionFragment setAnimation(int animation) {
+    public T setAnimation(int animation) {
         mAnimation = animation;
-        return this;
+        return (T) this;
     }
 
     public int getAnimation() {
         return mAnimation;
     }
 
-    public ActionFragment setWidth(int width) {
+    public T setWidth(int width) {
         mWidth = width;
-        return this;
+        return (T) this;
     }
 
     public int getWidth() {
         return mWidth;
     }
 
-    public ActionFragment setHeight(int height) {
+    public T setHeight(int height) {
         mHeight = height;
-        return this;
+        return (T) this;
     }
 
     public int getHeight() {
@@ -122,14 +123,14 @@ public abstract class ActionFragment extends ActionBase {
         show(manager, ActionFragment.this.getClass().getName());
     }
 
-    public ActionFragment setShowTime(long millis) {
+    public T setShowTime(long millis) {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 if (getContext() != null) dismiss();
             }
         }, millis);
-        return this;
+        return (T) this;
     }
 
     public void postDelayFade(long millis) {
