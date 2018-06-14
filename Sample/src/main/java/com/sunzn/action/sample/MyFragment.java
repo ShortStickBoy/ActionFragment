@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 
 import com.sunzn.action.library.ActionFragment;
 
-public class MyFragment extends ActionFragment {
+public class MyFragment extends ActionFragment<MyFragment> {
 
     public static final int FINISH = 1;
 
