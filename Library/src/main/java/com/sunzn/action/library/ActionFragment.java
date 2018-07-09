@@ -25,8 +25,6 @@ public abstract class ActionFragment<T extends ActionFragment> extends ActionBas
 
     private float mDimAmount = 0.5F;
 
-    private FragmentManager mManager;
-
     private DismissListener mDismissListener;
 
     private int mDismissCode = Integer.MAX_VALUE;
@@ -121,13 +119,8 @@ public abstract class ActionFragment<T extends ActionFragment> extends ActionBas
         return mHeight;
     }
 
-    public FragmentManager getManager() {
-        return mManager;
-    }
-
     public void show(FragmentManager manager) {
-        mManager = manager;
-        show(getFragmentManager(), ActionFragment.this.getClass().getName());
+        show(manager, ActionFragment.this.getClass().getName());
     }
 
     public T setShowTime(long millis) {
