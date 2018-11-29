@@ -120,7 +120,11 @@ public abstract class ActionFragment<T extends ActionFragment> extends ActionBas
     }
 
     public void show(FragmentManager manager) {
-        show(manager, ActionFragment.this.getClass().getName());
+        try {
+            show(manager, ActionFragment.this.getClass().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public T setShowTime(long millis) {
